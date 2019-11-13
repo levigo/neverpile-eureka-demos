@@ -1,0 +1,43 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: neverpile-es
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: elasticsearch
+rules:
+- apiGroups:
+  - extensions
+  resources:
+  - podsecuritypolicies
+  resourceNames:
+  - neverpile-es
+  verbs:
+  - use
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: neverpile-es
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: elasticsearch
+subjects:
+- kind: ServiceAccount
+  name: neverpile-es
+  namespace: neverpile-eureka
+roleRef:
+  kind: ClusterRole
+  name: neverpile-es
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: neverpile-es
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: elasticsearch
+...

@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: neverpile-config
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: neverpile
+data:
+  application.yml: |
+    neverpile-eureka:
+      ignite:
+        enabled: true
+        configuration:
+          metrics-log-frequency: 600000
+      storage.s3:
+        enabled: true
+        connection:
+          account-name: WTF
+          endpoint: js-s3.sol-01.k8s.levigo.net
+          access-key: jadice-minio
+          secret-key: zjDV4TTtUYanlvGuGjFg2wIhXOeldd1U
+          default-bucket-name: neverpile-preprod
+
+          client-configuration:
+            use-expect-continue: false
+            protocol: HTTPS
+#      storage.s3:
+#        enabled: true
+#        connection:
+#          account-name: Preprod Ceph
+#          endpoint: s3.levigo.de:80
+#          access-key-id: BHK7MOONGZXU7UUH2MZ8
+#          secret-access-key: 0Rxt3dG0FOpnYBog0Oqjz3s24ybIhRkYfCeBIUZw
+#          default-bucket-name: neverpile-preprod
+#
+#          client-configuration:
+#            use-expect-continue: false
+#            protocol: HTTP
+...

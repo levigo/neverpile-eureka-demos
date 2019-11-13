@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: neverpile-es-data
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: elasticsearch
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+...

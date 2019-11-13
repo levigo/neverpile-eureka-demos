@@ -1,0 +1,20 @@
+# headless service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-client
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: web-client
+spec:
+  type: ClusterIP
+  selector:
+    com.levigo.service: neverpile
+    com.levigo.component: web-client
+  ports:
+  - name: web
+    port: 80
+    targetPort: web
+...

@@ -1,0 +1,94 @@
+spring:
+  application:
+    name: neverpile eureka (development instance)
+
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+  servlet:
+    multipart:
+      file-size-threshold: 10MB
+      max-file-size: 10240MB
+      max-request-size: 10240MB
+
+  jta.atomikos.properties:
+    default-jta-timeout: 60000ms
+
+management:
+  health:
+    cassandra.enabled: false
+    db.enabled: false
+    elasticsearch.enabled: false
+
+  endpoints:
+    web.exposure.include: "*" # FIXME https://codecentric.github.io/spring-boot-admin/current/#_securing_client_actuator_endpoints
+  endpoint:
+    health:
+      show-details: ALWAYS # FIXME https://codecentric.github.io/spring-boot-admin/current/#_securing_client_actuator_endpoints
+
+logging.level:
+  com.atomikos: WARN
+
+neverpile-eureka:
+  data-path: data
+  bridge:
+    storage:
+      filesystem:
+        rootPath: ${neverpile-eureka.data-path}/objects
+
+  ignite:
+    enabled: false
+    discovery: NONE
+    configuration:
+      ignite-instance-name: neverpile-test
+      metrics-log-frequency: 600000
+      work-directory: ${neverpile-eureka.data-path}/ignite
+      # discoverySpi.ipFinder.multicastGroup: 228.10.10.157
+
+  hazelcast:
+    enabled: true
+    configuration:
+      group-config:
+        name: ${spring.application.name}
+        password: changeme
+      network-config:
+        join:
+          multicast-config:
+            enabled: false
+          tcp-ip-config:
+            enabled: false
+
+  wal:
+    directory: ${neverpile-eureka.data-path}/wal
+
+  cassandra:
+    enabled: true
+    embedded: true
+    host: localhost
+
+  storage.s3:
+    enabled: false
+    connection:
+      account-name: Preprod Ceph
+      endpoint: s3.levigo.de
+      access-key-id: BHK7MOONGZXU7UUH2MZ8
+      secret-access-key: 0Rxt3dG0FOpnYBog0Oqjz3s24ybIhRkYfCeBIUZw
+      default-bucket-name: neverpile-preprod
+      access-style: Path 
+      client-configuration:
+        use-expect-continue: false
+        protocol: HTTPS
+
+  pre-signed-urls:
+    enabled: true
+    secret-key: "fS25%)Mzy48&;sy3"
+    patterns: "/**"
+
+  elastic:
+    enabled: true
+
+  oauth2:
+    embedded-authorization-server:
+      enabled: true
+      key: g47Ff2d753tVA97

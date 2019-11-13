@@ -1,0 +1,26 @@
+target/
+.toDelete
+
+
+######################
+# Documents, Facets & Logs
+######################
+neverpile-eureka_default
+transaction-logs
+data
+
+
+######################
+# IntelliJ
+######################
+.idea/**
+*.iml
+
+######################
+# Eclipse
+######################
+/.metadata
+/.recommenders
+.classpath
+.project
+.settings

@@ -1,0 +1,88 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.neverpile</groupId>
+    <artifactId>neverpile-eureka-demos</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>neverpile-eureka-application</artifactId>
+  <packaging>war</packaging>
+
+  <dependencies>
+    <!-- neverpile -->
+    <dependency>
+      <groupId>com.neverpile</groupId>
+      <artifactId>neverpile-eureka-spring-boot-starter</artifactId>
+      <version>${neverpile.eureka.version}</version>
+      <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>com.neverpile</groupId>
+      <artifactId>neverpile-eureka-hazelcast</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.neverpile</groupId>
+      <artifactId>neverpile-eureka-ignite</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.neverpile</groupId>
+      <artifactId>neverpile-eureka-bridge-storage-s3</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.neverpile</groupId>
+      <artifactId>neverpile-eureka-bridge-storage-cassandra</artifactId>
+    </dependency>
+
+    <!-- Spring (-Boot) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aop</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jta-atomikos</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>de.codecentric</groupId>
+      <artifactId>spring-boot-admin-starter-client</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.elasticsearch.client</groupId>
+      <artifactId>elasticsearch-rest-client</artifactId>
+      <version>${elasticsearch.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

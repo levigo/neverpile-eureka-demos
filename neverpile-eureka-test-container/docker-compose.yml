@@ -1,0 +1,144 @@
+version: '2'
+services:
+  neverpile:
+    image: ${IMAGE_NAME}
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      # Elastic
+      neverpile-eureka.elastic.enabled: 'true'
+      spring.elasticsearch.rest.uris: http://elasticsearch:9200
+      # Cassandra
+      neverpile-eureka.cassandra.enabled: 'false'
+      neverpile-eureka.cassandra.embedded: 'false'
+      neverpile-eureka.cassandra.host: cassandra
+      # Ignite
+      neverpile-eureka.ignite.enabled: 'false'
+      # Hazelcast
+      neverpile-eureka.hazelcast.enabled: 'true'
+      neverpile-eureka.hazelcast.configuration.group-config.password: 08352843459843
+      neverpile-eureka.hazelcast.configuration.network-config.join.tcp-ip-config.enabled: 'true'
+      neverpile-eureka.hazelcast.configuration.network-config.join.tcp-ip-config.members: neverpile-neverpile-1,neverpile-neverpile-2,neverpile-neverpile-3
+      # Admin
+      spring.application.name: neverpile eureka (preprod stack)
+      spring.boot.admin.client.url: http://spring-boot-admin:1001
+      spring.boot.admin.client.username: admin
+      spring.boot.admin.client.password: admin
+            
+    labels:
+      traefik.frontend.rule: Host:neverpile-container-test.container.levigo.de
+      traefik.port: '8080'
+      traefik.enable: 'true'
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=neverpile/neverpile
+      
+    # Memory limits / reservation in bytes = 2 GB
+    mem_limit: 2147483647
+    mem_reservation: 536870912
+    networks:
+      - neverpile-net
+    depends_on:
+      - neverpile-elasticsearch
+      - neverpile-cassandra
+      - neverpile-spring-boot-admin
+
+#    logging:
+#      driver: gelf
+#      options:
+#        gelf-address: udp://10.208.67.184:12201
+        
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.4.2
+    container_name: elasticsearch
+    environment:
+      cluster.name: neverpile-test-elastic-cluster
+      bootstrap.memory_lock: 'true'
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      
+    # Memory limits / reservation in bytes = 1.5/0.5 GB
+    mem_limit: 1610612736
+    mem_reservation: 536870912
+    
+    ulimits:
+      memlock:
+        hard: -1
+        soft: -1
+    volumes:
+      - neverpile-esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200
+      - 9300
+    networks:
+      - neverpile-net
+    labels:
+       io.rancher.scheduler.affinity:host_label: elastic.config=true
+
+#    logging:
+#      driver: gelf
+#      options:
+#        gelf-address: udp://10.208.67.184:12201
+        
+  cassandra:
+    image: cassandra
+    environment:
+      CASSANDRA_CLUSTER_NAME: NeverpileCluster
+      CASSANDRA_NUM_TOKENS: '256'
+      CASSANDRA_SEEDS: neverpile-cassandra-1,neverpile-cassandra-2
+      MAX_HEAP_SIZE: 512M
+      HEAP_NEWSIZE: 128M
+    
+    # Memory limits / reservation in bytes = 1.5/0.5 GB
+    mem_limit: 1610612736
+    mem_reservation: 536870912
+      
+    labels:
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=neverpile/cassandra
+      
+    ports:
+      - 9042:9042
+    command: bash -c /docker-entrypoint.sh cassandra -f
+    expose:
+      - 7000
+      - 7001
+      - 7199
+      - 9042
+      - 9160
+    networks:
+      - neverpile-net
+    
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://10.208.67.184:12201
+        
+#  spring-boot-admin:
+#    image: registry.container.levigo.de:5000/neverpile-spring-boot-admin:20
+#    ports:
+#      - 1001:1001
+#    command: java -Xmx128m -jar /admin.jar
+#
+#    # Memory limits / reservation in bytes = 0.5/0.25 GB
+#    mem_limit: 536870912
+#    mem_reservation: 268435456
+#    
+#    networks:
+#      - neverpile-net
+#    labels:
+#       traefik.frontend.rule: Host:neverpile-spring-boot-admin.container.levigo.de
+#       traefik.port: '1001'
+#       traefik.enable: 'true'
+   
+#    logging:
+#      driver: gelf
+#      options:
+#        gelf-address: udp://10.208.67.184:12201
+           
+volumes:
+  neverpile-esdata:
+    driver: local
+  neverpile-cassandra:
+    driver: local
+
+networks:
+  neverpile-net:
+    driver: bridge

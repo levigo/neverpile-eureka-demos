@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-service
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: elasticsearch
+spec:
+  type: ClusterIP
+  selector:
+    com.levigo.service: neverpile
+    com.levigo.component: elasticsearch
+  ports:
+  - name: http
+    port: 9200
+    targetPort: http
+  - name: transport
+    port: 9300
+    targetPort: transport
+...

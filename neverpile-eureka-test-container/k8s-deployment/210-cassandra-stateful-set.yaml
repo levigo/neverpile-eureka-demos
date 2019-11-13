@@ -1,0 +1,125 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cassandra
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: cassandra
+spec:
+  serviceName: cassandra
+  replicas: 4
+  podManagementPolicy: OrderedReady #Parallel
+  updateStrategy:
+    type: OnDelete
+  selector:
+    matchLabels:
+      com.levigo.service: neverpile
+      com.levigo.component: cassandra
+  template:
+    metadata:
+      labels:
+        com.levigo.service: neverpile
+        com.levigo.component: cassandra
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 1800
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        fsGroup: 999
+      affinity:
+        # if possible don't run two cassandra instances on the same host
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: com.levigo.component
+                  operator: In
+                  values:
+                  - cassandra
+              topologyKey: kubernetes.io/hostname # scope = node
+      containers:
+      - name: cassandra
+        image: cassandra:3.11.2
+        args:
+        - bash
+        - -c
+        - /docker-entrypoint.sh
+        - cassandra
+        - -f
+        env:
+        - name: CASSANDRA_CLUSTER_NAME
+          value: NeverpileCluster
+        - name: CASSANDRA_NUM_TOKENS
+          value: "256"
+        - name: CASSANDRA_SEEDS
+          value: cassandra-0.cassandra,cassandra-1.cassandra
+        - name: HEAP_NEWSIZE
+          value: 128M
+        - name: MAX_HEAP_SIZE
+          value: 512M
+        ports:
+        - name: intra-node
+          containerPort: 7000
+        - name: tls-intra-node
+          containerPort: 7001
+        - name: jmx
+          containerPort: 7199
+        - name: cql
+          containerPort: 9042
+        - name: thrift
+          containerPort: 9160
+        resources:
+          requests:
+            memory: "2048Mi"
+            cpu: "1000m"
+            ephemeral-storage: "2Gi"
+          limits:
+            memory: "2048Mi"
+            cpu: "1000m"
+            ephemeral-storage: "2Gi"
+        #        readinessProbe:
+        #          exec:
+        #            command: [ "/bin/sh", "-c", "nodetool status | grep -E \"^UN\\s+${POD_IP}\"" ]
+        #          initialDelaySeconds: 5
+        #          periodSeconds: 10
+        #          timeoutSeconds: 5   # 1=default
+        #          successThreshold: 1 # 1=defaults
+        #          failureThreshold: 3 # 3=default
+        livenessProbe:
+          exec:
+            command: [ "/bin/sh", "-c", "nodetool status" ]
+          initialDelaySeconds: 90
+          periodSeconds: 10
+          timeoutSeconds: 1   # 1=default
+          successThreshold: 1 # 1=default
+          failureThreshold: 3 # 3=default
+        lifecycle:
+          preStop:
+            exec:
+              # helm-charts: 'decomission' vs. kubernetes-example: 'drain'
+              command: ["/bin/sh", "-c", "exec nodetool decommission"]
+        volumeMounts:
+        - name: neverpile-casandra-data
+          mountPath:  /var/lib/cassandra
+      volumes:
+      - name: neverpile-casandra-data
+        emptyDir: {}
+#  volumeClaimTemplates:
+#  - metadata:
+#      name: neverpile-casandra-data
+#      labels:
+#        com.levigo.service: neverpile
+#        com.levigo.component: cassandra
+#    spec:
+#      accessModes:
+#      - ReadWriteOnce
+#      storageClassName: ""
+#      resources:
+#        requests:
+#          storage: 2Gi
+...

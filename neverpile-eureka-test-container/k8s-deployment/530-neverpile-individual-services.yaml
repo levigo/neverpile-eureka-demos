@@ -1,0 +1,74 @@
+# services for individual instances
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: neverpile-0
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: neverpile
+spec:
+  clusterIP: None
+  type: ClusterIP
+  selector:
+    statefulset.kubernetes.io/pod-name: neverpile-0
+  ports:
+  - name: web
+    port: 8000
+    targetPort: web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: neverpile-1
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: neverpile
+spec:
+  clusterIP: None
+  type: ClusterIP
+  selector:
+    statefulset.kubernetes.io/pod-name: neverpile-1
+  ports:
+    - name: web
+      port: 8000
+      targetPort: web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: neverpile-2
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: neverpile
+spec:
+  clusterIP: None
+  type: ClusterIP
+  selector:
+    statefulset.kubernetes.io/pod-name: neverpile-2
+  ports:
+    - name: web
+      port: 8000
+      targetPort: web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: neverpile-3
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: neverpile
+spec:
+  clusterIP: None
+  type: ClusterIP
+  selector:
+    statefulset.kubernetes.io/pod-name: neverpile-3
+  ports:
+    - name: web
+      port: 8000
+      targetPort: web
+...

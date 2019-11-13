@@ -1,0 +1,100 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: neverpile
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: neverpile
+spec:
+  # remove replicas when using hpa
+  replicas: 4
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      com.levigo.service: neverpile
+      com.levigo.component: neverpile
+  template:
+    metadata:
+      labels:
+        com.levigo.service: neverpile
+        com.levigo.component: neverpile
+    spec:
+      restartPolicy: Always
+      serviceAccountName: neverpile
+      securityContext:
+        runAsUser: 5555
+        fsGroup: 5555
+      containers:
+      - name: neverpile
+        image: registry.sol-01.k8s.levigo.net/neverpile-test-container:48
+        ports:
+        - name: web
+          containerPort: 8080
+          protocol: TCP
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: development #${SPRING_PROFILES_ACTIVE}
+          # Cassandra
+        - name: neverpile-eureka.cassandra.embedded
+          value: "false"
+        - name: neverpile-eureka.cassandra.enabled
+          value: "false"
+        - name: neverpile-eureka.cassandra.host
+          value: cassandra
+          # Elastic
+        - name: neverpile-eureka.elastic.enabled
+          value: "true"
+        - name: neverpile-eureka.elastic.host
+          value: elasticsearch
+          # Hazelcast
+        - name: neverpile-eureka.hazelcast.configuration.group-config.password
+          value: "8352843700000"
+        - name: neverpile-eureka.hazelcast.configuration.network-config.join.tcp-ip-config.enabled
+          value: "true"
+        - name: neverpile-eureka.hazelcast.configuration.network-config.join.tcp-ip-config.members
+          value: neverpile-neverpile-1,neverpile-neverpile-2,neverpile-neverpile-3
+        - name: neverpile-eureka.hazelcast.enabled
+          value: "true"
+          # Ignite
+        - name: neverpile-eureka.ignite.enabled
+          value: "false"
+          # Admin
+        - name: spring.application.name
+          value: neverpile eureka (preprod stack)
+        - name: spring.boot.admin.client.url
+          value: http://spring-boot-admin:1001
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "1000m"
+            ephemeral-storage: "2048Mi"
+          limits:
+            memory: "2048Mi"
+            cpu: "2000m"
+            ephemeral-storage: "4096Mi"
+        # ensure that traffic does not reach a container that is not ready
+        readinessProbe:
+          httpGet:
+            path: /
+            scheme: HTTP
+            port: web
+          initialDelaySeconds: 60
+          periodSeconds: 20   #10=default
+          timeoutSeconds: 2   # 1=default
+          successThreshold: 2 # 1=default
+          failureThreshold: 3 # 3=default
+        # ensure that containers are restarted when they fail
+        livenessProbe:
+          httpGet:
+            path: /
+            scheme: HTTP
+            port: web
+          initialDelaySeconds: 65
+          periodSeconds: 5   #10=default
+          timeoutSeconds: 2   # 1=default
+          successThreshold: 1 # 1=default, must be 1
+          failureThreshold: 3 # 3=default
+...

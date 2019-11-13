@@ -1,0 +1,14 @@
+version: '2'
+services:
+  neverpile-minimal-container-test:
+    image: ${IMAGE_NAME}
+    environment:
+        - "SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}"
+        - "neverpile-eureka.elastic.enabled=false"
+        - "neverpile-eureka.cassandra.enabled=false"
+        - "neverpile-eureka.ignite.enabled=false"
+    # Memory limits / reservation in bytes = 2 GB
+    mem_limit: 2147483647
+    mem_reservation: 536870912
+
+

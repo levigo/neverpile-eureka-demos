@@ -1,0 +1,39 @@
+# The following Service is used for DNS lookups between Cassandra Pods and clients within the Kubernetes cluster.
+# It is a headless Service (https://kubernetes.io/docs/concepts/services-networking/service/#headless-services)
+#  - a cluster IP is not allocated, kube-proxy does not handle these services,
+#    and there is no load balancing or proxying done by the platform for them.
+#  - For headless services that define selectors, the endpoints controller creates Endpoints records in the API,
+#    and modifies the DNS configuration to return A records (addresses) that point directly to the Pods backing the Service.
+#  Pod DNS will be: cassandra-0.cassandra.neverpile.svc.cluster.local, ...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cassandra
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: cassandra
+spec:
+  clusterIP: None
+  type: ClusterIP
+  selector:
+    com.levigo.service: neverpile
+    com.levigo.component: cassandra
+  ports:
+  #  - name: intra-node
+  #    port: 7000
+  #    targetPort: intra-node
+  #  - name: tls-intra-node
+  #    port: 7001
+  #    targetPort: tls-intra-node
+  #  - name: jmx
+  #    port: 7199
+  #    targetPort: jmx
+  - name: cql
+    port: 9042
+    targetPort: cql
+#  - name: thrift
+#    port: 9160
+#    targetPort: thrift
+...

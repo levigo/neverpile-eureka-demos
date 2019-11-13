@@ -1,0 +1,25 @@
+# headless service
+# produces a-records of the schema:
+# $(statefulset name)-$(ordinal).$(service name).$(namespace).svc.cluster.local
+# resulting in:
+# neverpile-0.neverpile.neverpile-eureka.svc.cluster.local etc.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: neverpile
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: neverpile
+spec:
+  clusterIP: None
+  type: ClusterIP
+  selector:
+    com.levigo.service: neverpile
+    com.levigo.component: neverpile
+  ports:
+  - name: web
+    port: 8000
+    targetPort: web
+...

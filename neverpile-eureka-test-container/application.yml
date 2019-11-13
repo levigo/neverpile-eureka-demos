@@ -1,0 +1,18 @@
+neverpile-eureka:
+  ignite:
+    enabled: true
+    configuration:
+      metrics-log-frequency: 600000
+
+  storage.s3:
+    enabled: true
+    connection:
+      account-name: Preprod Ceph
+      endpoint: s3.levigo.de:80
+      access-key-id: BHK7MOONGZXU7UUH2MZ8
+      secret-access-key: 0Rxt3dG0FOpnYBog0Oqjz3s24ybIhRkYfCeBIUZw
+      default-bucket-name: neverpile-preprod
+      
+      client-configuration:
+        use-expect-continue: false
+        protocol: HTTP

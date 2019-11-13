@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-client
+  namespace: neverpile-eureka
+  labels:
+    com.levigo.service: neverpile
+    com.levigo.component: web-client
+spec:
+  # remove replicas when using hpa
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      com.levigo.service: neverpile
+      com.levigo.component: web-client
+  template:
+    metadata:
+      labels:
+        com.levigo.service: neverpile
+        com.levigo.component: web-client
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: neverpile
+        image: registry.sol-01.k8s.levigo.net/neverpile-eureka-web-client:16
+        ports:
+        - name: web
+          containerPort: 80
+          protocol: TCP
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+            ephemeral-storage: "1024Mi"
+          limits:
+            memory: "1024Mi"
+            cpu: "1000m"
+            ephemeral-storage: "1024Mi"
+        # ensure that traffic does not reach a container that is not ready
+        readinessProbe:
+          httpGet:
+            path: /
+            scheme: HTTP
+            port: web
+          initialDelaySeconds: 60
+          periodSeconds: 20   #10=default
+          timeoutSeconds: 2   # 1=default
+          successThreshold: 1 # 1=default
+          failureThreshold: 3 # 3=default
+        # ensure that containers are restarted when they fail
+        livenessProbe:
+          httpGet:
+            path: /
+            scheme: HTTP
+            port: web
+          initialDelaySeconds: 65
+          periodSeconds: 5   #10=default
+          timeoutSeconds: 2   # 1=default
+          successThreshold: 1 # 1=default, must be 1
+          failureThreshold: 3 # 3=default
+...
