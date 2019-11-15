@@ -30,7 +30,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.neverpile</groupId>
+                <groupId>com.neverpile.eureka</groupId>
                 <artifactId>neverpile-eureka-bom</artifactId>
                 <version>${neverpile.eureka.version}</version>
                 <type>pom</type>
