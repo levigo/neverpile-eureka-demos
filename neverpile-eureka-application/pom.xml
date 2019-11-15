@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.neverpile</groupId>
+    <groupId>com.neverpile.eureka.demos</groupId>
     <artifactId>neverpile-eureka-demos</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -15,25 +15,25 @@
   <dependencies>
     <!-- neverpile -->
     <dependency>
-      <groupId>com.neverpile</groupId>
+      <groupId>com.neverpile.eureka</groupId>
       <artifactId>neverpile-eureka-spring-boot-starter</artifactId>
       <version>${neverpile.eureka.version}</version>
       <type>pom</type>
     </dependency>
     <dependency>
-      <groupId>com.neverpile</groupId>
+      <groupId>com.neverpile.eureka</groupId>
       <artifactId>neverpile-eureka-hazelcast</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.neverpile</groupId>
+      <groupId>com.neverpile.eureka</groupId>
       <artifactId>neverpile-eureka-ignite</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.neverpile</groupId>
+      <groupId>com.neverpile.eureka</groupId>
       <artifactId>neverpile-eureka-bridge-storage-s3</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.neverpile</groupId>
+      <groupId>com.neverpile.eureka</groupId>
       <artifactId>neverpile-eureka-bridge-storage-cassandra</artifactId>
     </dependency>
 
