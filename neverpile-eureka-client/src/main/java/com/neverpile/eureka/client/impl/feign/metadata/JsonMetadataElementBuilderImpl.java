@@ -18,7 +18,7 @@ public class JsonMetadataElementBuilderImpl<P>
   public JsonMetadataElementBuilderImpl(final P parent, final String schema, final Metadata metadata) {
     super(parent, schema, metadata);
     
-    element.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+    element.setContentType(MediaType.APPLICATION_JSON_VALUE);
   }
 
   @Override

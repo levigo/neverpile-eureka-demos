@@ -101,7 +101,7 @@ public class FeignNeverpileClientTest {
   
   @Test
   public void testThat_documentCanBeCreated() throws Exception {
-    String metadataFacetJSON = "\"metadata\" : {\"someMetadata\" : {\"schema\" : \"someMetadata\", \"contentType\" : \"application/json;charset=UTF-8\", \"content\" : \"eyJmb28iOiJiYXIifQ==\"}}";
+    String metadataFacetJSON = "\"metadata\" : {\"someMetadata\" : {\"schema\" : \"someMetadata\", \"contentType\" : \"application/json\", \"content\" : \"eyJmb28iOiJiYXIifQ==\"}}";
 
     // @formatter:off
     stubFor(
