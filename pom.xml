@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.neverpile</groupId>
-    <artifactId>neverpile-eureka-demos</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+  <groupId>com.neverpile.eureka.demos</groupId>
+  <artifactId>neverpile-eureka-demos</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-    <properties>
-        <java.version>1.8</java.version>
+  <properties>
+    <java.version>1.8</java.version>
 
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <neverpile.eureka.version>0.0.1-SNAPSHOT</neverpile.eureka.version>
-        <elasticsearch.version>7.4.2</elasticsearch.version>
-    </properties>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.neverpile</groupId>
-                <artifactId>neverpile-eureka-bom</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-    <modules>
-        <module>neverpile-eureka-client</module>
-        <module>neverpile-eureka-application</module>
-        <module>neverpile-eureka-test-container</module>
-    </modules>
+    <neverpile.eureka.version>0.1.21</neverpile.eureka.version>
+    <elasticsearch.version>7.4.2</elasticsearch.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>neverpile</id>
+      <name>Neverpile Apache Maven Packages</name>
+      <url>https://registry.neverpile.com/repository/maven-releases/</url>
+    </repository>
+  </repositories>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.neverpile.eureka</groupId>
+        <artifactId>neverpile-eureka-bom</artifactId>
+        <version>${neverpile.eureka.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
+  <modules>
+    <module>neverpile-eureka-client</module>
+    <module>neverpile-eureka-application</module>
+    <module>neverpile-eureka-test-container</module>
+  </modules>
 </project>
