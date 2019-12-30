@@ -9,13 +9,13 @@
   <packaging>pom</packaging>
 
   <properties>
-    <java.version>1.8</java.version>
+    <java.version>11</java.version>
 
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <neverpile.eureka.version>0.1.21</neverpile.eureka.version>
+    <neverpile.eureka.version>0.2.47</neverpile.eureka.version>
     <elasticsearch.version>7.4.2</elasticsearch.version>
   </properties>
 

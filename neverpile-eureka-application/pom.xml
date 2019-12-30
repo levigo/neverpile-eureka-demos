@@ -36,6 +36,14 @@
       <groupId>com.neverpile.eureka</groupId>
       <artifactId>neverpile-eureka-bridge-storage-cassandra</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.neverpile.eureka</groupId>
+      <artifactId>neverpile-eureka-security-oauth2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.neverpile.eureka</groupId>
+      <artifactId>neverpile-openapi</artifactId>
+    </dependency>
 
     <!-- Spring (-Boot) -->
     <dependency>
@@ -74,6 +82,7 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>2.2.1.RELEASE</version>
       </plugin>
 
       <plugin>

@@ -63,8 +63,7 @@ neverpile-eureka:
     directory: ${neverpile-eureka.data-path}/wal
 
   cassandra:
-    enabled: true
-    embedded: true
+    enabled: false
     host: localhost
 
   storage.s3:

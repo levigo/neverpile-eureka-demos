@@ -9,10 +9,6 @@ import org.springframework.boot.autoconfigure.data.cassandra.CassandraDataAutoCo
 
 import com.neverpile.eureka.util.EnableNeverpileEurekaSpringApplication;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-
-@EnableSwagger2
 @SpringBootApplication(exclude={CassandraDataAutoConfiguration.class})
 @EnableNeverpileEurekaSpringApplication
 public class NeverpileEureka implements CommandLineRunner {
