@@ -1,6 +1,6 @@
 target/
+ignite/
 .toDelete
-
 
 ######################
 # Documents, Facets & Logs
@@ -8,7 +8,6 @@ target/
 neverpile-eureka_default
 transaction-logs
 data
-
 
 ######################
 # IntelliJ
