@@ -30,6 +30,11 @@ management:
 logging.level:
   com.atomikos: WARN
 
+neverpile.url-crypto:
+  shared-secret:
+    enabled: true
+    secret-key: ps634xpe85en4a779g98
+
 neverpile-eureka:
   data-path: data
   bridge:
@@ -78,11 +83,6 @@ neverpile-eureka:
       client-configuration:
         use-expect-continue: false
         protocol: HTTPS
-
-  pre-signed-urls:
-    enabled: true
-    secret-key: "fS25%)Mzy48&;sy3"
-    patterns: "/**"
 
   elastic:
     enabled: true

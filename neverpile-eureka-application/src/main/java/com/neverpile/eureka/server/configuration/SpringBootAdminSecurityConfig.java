@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
 import de.codecentric.boot.admin.client.registration.metadata.MetadataContributor;
 
 @Configuration
-@Order(98)
+@Order(99)
 public class SpringBootAdminSecurityConfig extends WebSecurityConfigurerAdapter implements MetadataContributor {
   private static final String SBA_USER_NAME = "spring-boot-admin";
 
