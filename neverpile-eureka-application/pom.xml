@@ -41,8 +41,8 @@
       <artifactId>neverpile-eureka-security-oauth2</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.neverpile.eureka</groupId>
-      <artifactId>neverpile-openapi</artifactId>
+      <groupId>com.neverpile.commons</groupId>
+      <artifactId>neverpile-commons-swagger-ui</artifactId>
     </dependency>
 
     <!-- Spring (-Boot) -->
